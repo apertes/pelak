@@ -6,6 +6,7 @@
 <head>
 @include('admin-panel.layouts.head-tag')
  @yield('head-tag')
+@livewireStyles
 </head>
 
 <body style="background:white">
@@ -25,7 +26,8 @@
 </div>
 
 @include('admin-panel.layouts.script')
-@stack('script')
+@livewireScripts
+@stack('scripts')
 </body>
 
 <!-- Mirrored from motrila.iranneginhotel.ir/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Dec 2019 09:29:53 GMT -->

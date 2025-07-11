@@ -13,7 +13,34 @@
             <nav>
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="active"><a href="index-2.html"><i class="zmdi zmdi-view-dashboard"></i><span>داشبورد</span></a></li>
-                 
+                    <li><a href="{{ route('admin.users.index') }}"><i class="zmdi zmdi-accounts"></i><span>مدیریت کاربران</span></a></li>
+                    <li><a href="{{ route('admin.posts.index') }}"><i class="zmdi zmdi-label"></i><span>مدیریت سمت‌ها</span></a></li>
+                    <li><a href="{{ route('admin.user-hierarchy.manage') }}"><i class="zmdi zmdi-collection-item"></i><span>مدیریت زیرمجموعه کاربران</span></a></li>
+                    <li><a href="{{ route('admin.locations.manage') }}"><i class="zmdi zmdi-pin"></i><span>مدیریت مکان‌ها</span></a></li>
+                    <li><a href="{{ route('admin.positions.manage') }}"><i class="zmdi zmdi-city"></i><span>مدیریت جایگاه‌ها</span></a></li>
+                    <li class="nav-item has-sub">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-tree"></i> <span>مدیریت درختان</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.tree-groups') }}">مدیریت گروه‌های درختی</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.trees') }}">مدیریت گونه‌های درختی</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.planted-trees') }}">ثبت و مدیریت درختان خیابان</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.user-posts.index') }}">
+                           
+                            <span>مدیریت پست کاربران</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.user-posts.tree') }}">
+                          
+                            <span>درخت کاربران و پست‌ها (Vue)</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'parent_id',
+        'national_code',
+        'phone',
     ];
 
     /**
@@ -44,5 +47,45 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * والد کاربر
+     */
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    /**
+     * زیرمجموعه‌های کاربر
+     */
+    public function children()
+    {
+        return $this->hasMany(User::class, 'parent_id');
+    }
+
+    /**
+     * والدین کاربر (کاربرانی که این کاربر زیرمجموعه آن‌هاست)
+     */
+    public function parents()
+    {
+        return $this->belongsToMany(User::class, 'user_hierarchy', 'child_user_id', 'parent_user_id');
+    }
+
+    /**
+     * زیرمجموعه‌های کاربر (کاربرانی که زیرمجموعه این کاربر هستند)
+     */
+    public function childrenHierarchy()
+    {
+        return $this->belongsToMany(User::class, 'user_hierarchy', 'parent_user_id', 'child_user_id');
+    }
+
+    /**
+     * سمت‌های کاربر
+     */
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'user_post');
     }
 }
