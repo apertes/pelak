@@ -30,11 +30,31 @@
                             @endif
                         </div>
                     </div>
+                    
+                    <!-- نمایش QR Code -->
+                    @if($plantedTree->qrcode)
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 style="color: #1976d2;">QR Code درخت</h5>
+                            <div class="text-center">
+                                <img src="{{ asset($plantedTree->qrcode->qr_image) }}" alt="QR Code" style="width: 200px; height: 200px; border: 2px solid #1976d2; border-radius: 8px;">
+                                <div class="mt-2">
+                                    <small class="text-muted">برای اسکن و مشاهده اطلاعات عمومی درخت</small>
+                                </div>
+                                <div class="mt-2">
+                                    <a href="{{ asset($plantedTree->qrcode->qr_image) }}" download class="btn btn-sm btn-outline-primary">
+                                        <i class="material-icons">download</i> دانلود QR Code
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="mb-3">
                         <label style="color: #1976d2;">موقعیت روی نقشه</label>
                         <div id="map" style="height: 300px; border-radius: 8px; overflow: hidden;"></div>
                     </div>
-                    <a href="{{ route('planted-trees.index') }}" class="btn btn-light" style="border-radius: 8px; min-width: 100px;">بازگشت</a>
+                    <a href="{{ route('admin.planted-trees') }}" class="btn btn-light" style="border-radius: 8px; min-width: 100px;">بازگشت</a>
                 </div>
             </div>
         </div>

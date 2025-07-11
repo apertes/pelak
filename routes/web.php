@@ -64,3 +64,7 @@ Route::get('/admin/api/user-post-tree', function () {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 });
+
+// نمایش عمومی اطلاعات درخت بر اساس ID (بدون prefix admin)
+Route::get('/tree/{id}', [PlantedTreeController::class, 'publicShow'])->name('tree.public.show');
+Route::post('/tree/{id}/create', [PlantedTreeController::class, 'storeFromQr'])->name('tree.public.create');

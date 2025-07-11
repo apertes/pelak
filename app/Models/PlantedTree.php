@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlantedTree extends Model
 {
     protected $fillable = [
+        'id', // اضافه کردن id به fillable برای امکان وارد کردن دستی
         'tree_group_id',
         'tree_id',
         'location_id',
@@ -37,5 +38,13 @@ class PlantedTree extends Model
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * رابطه با مدل Qrcode
+     */
+    public function qrcode()
+    {
+        return $this->hasOne(Qrcode::class, 'planted_tree_id');
     }
 }

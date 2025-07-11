@@ -27,7 +27,11 @@
                                 @forelse($plantedTrees as $plantedTree)
                                     <tr>
                                         <td>
-                                            <span class="badge" style="background: #1976d2; color: #fff; font-size: 10px;">{{ $plantedTree->qr_code }}</span>
+                                            @if($plantedTree->qrcode)
+                                                <img src="{{ asset($plantedTree->qrcode->qr_image) }}" alt="QR Code" style="width: 50px; height: 50px; border: 1px solid #ddd; border-radius: 4px;">
+                                            @else
+                                                <span class="text-muted">بدون QR</span>
+                                            @endif
                                         </td>
                                         <td>{{ $plantedTree->tree->name ?? '-' }}</td>
                                         <td>{{ $plantedTree->location->name ?? '-' }}</td>
