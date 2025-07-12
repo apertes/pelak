@@ -27,6 +27,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.tree-groups') }}">مدیریت گروه‌های درختی</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.trees') }}">مدیریت گونه‌های درختی</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.planted-trees') }}">ثبت و مدیریت درختان خیابان</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.qr-generator.index') }}"><i class="zmdi zmdi-qrcode"></i> تولید انبوه کدهای QR</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">

@@ -27,4 +27,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('positions/manage', function () {
         return view('admin-panel.positions.manage');
     })->name('positions.manage');
+
+    // QR Code Generator Routes
+    Route::get('qr-generator', [\App\Http\Controllers\Admin\QrCodeGenerator\QrCodeGeneratorController::class, 'index'])->name('qr-generator.index');
+    Route::post('qr-generator/generate', [\App\Http\Controllers\Admin\QrCodeGenerator\QrCodeGeneratorController::class, 'generate'])->name('qr-generator.generate');
 }); 
