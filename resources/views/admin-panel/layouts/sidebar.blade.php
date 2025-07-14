@@ -28,6 +28,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.trees') }}">مدیریت گونه‌های درختی</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.planted-trees') }}">ثبت و مدیریت درختان خیابان</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.qr-generator.index') }}"><i class="zmdi zmdi-qrcode"></i> تولید انبوه کدهای QR</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.tree-reports.index') }}"><i class="zmdi zmdi-flag"></i> لیست گزارشات درختان</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -41,6 +42,17 @@
                           
                             <span>درخت کاربران و پست‌ها (Vue)</span>
                         </a>
+                    </li>
+                    <li class="nav-item has-sub">
+                        <a href="#" class="nav-link">
+                            <i class="zmdi zmdi-shield-security"></i> <span>مدیریت دسترسی‌ها</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.roles.index') }}">مدیریت نقش‌ها</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.permissions.index') }}">مدیریت مجوزها</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.user-roles.index') }}">اختصاص نقش به کاربر</a></li>
+                        </ul>
                     </li>
                 </ul>
             </nav>

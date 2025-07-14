@@ -160,6 +160,11 @@ class PlantedTreeController extends Controller
             return view('planted-tree.create-from-qr', compact('id', 'treeGroups', 'trees', 'locations', 'positions'));
         }
         
+        // اگر کاربر لاگین است و مجوز ویرایش دارد، ریدایرکت به صفحه ویرایش
+        if (auth()->check() && auth()->user()->can('edit tree')) {
+            return redirect()->route('planted-trees.edit', $plantedTree->id);
+        }
+
         return view('planted-tree.public-show', compact('plantedTree'));
     }
 

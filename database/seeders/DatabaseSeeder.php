@@ -19,5 +19,25 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // ساخت سوپرادمین اگر وجود نداشت
+        $superadmin = \App\Models\User::where('email', 'ahmad.mohamadpour.gh@gmail.com')->first();
+        if (!$superadmin) {
+            $superadmin = \App\Models\User::create([
+                'name' => 'احمد محمدپور',
+                'email' => 'ahmad.mohamadpour.gh@gmail.com',
+                'password' => bcrypt('123456789'),
+                'phone' => '09902621572',
+                'national_code' => '2080130481',
+                'type' => 'employee',
+            ]);
+        }
+        $superadmin->assignRole('admin');
+        $superadmin->givePermissionTo(\Spatie\Permission\Models\Permission::all());
+
+        // اجرای seeder نقش‌ها و مجوزها
+        $this->call(RolesAndPermissionsSeeder::class);
+        // تبدیل پست‌های موجود به نقش‌ها
+        $this->call(ConvertPostsToRolesSeeder::class);
     }
 }

@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'parent_id',
         'national_code',
         'phone',
+        'type',
     ];
 
     /**
@@ -87,5 +89,21 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'user_post');
+    }
+
+    /**
+     * آیا کاربر کارمند است؟
+     */
+    public function isEmployee()
+    {
+        return $this->type === 'employee';
+    }
+
+    /**
+     * آیا کاربر شهروند است؟
+     */
+    public function isCitizen()
+    {
+        return $this->type === 'citizen';
     }
 }

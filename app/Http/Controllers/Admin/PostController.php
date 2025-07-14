@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Spatie\Permission\Models\Role;
 
 class PostController extends Controller
 {
@@ -26,7 +27,15 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:posts,id',
         ]);
-        Post::create($validated);
+        $post = Post::create($validated);
+        // ایجاد نقش مرتبط با پست اگر وجود ندارد
+        if (!Role::where('name', $post->title)->where('is_post_role', true)->exists()) {
+            Role::create([
+                'name' => $post->title,
+                'is_post_role' => true,
+                'guard_name' => 'web',
+            ]);
+        }
         return redirect()->route('admin.posts.index')->with('success', 'سمت با موفقیت ایجاد شد.');
     }
 

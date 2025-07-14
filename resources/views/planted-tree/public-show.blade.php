@@ -559,6 +559,66 @@
         </div>
     </div>
 
+{{-- دکمه ثبت گزارش برای همه کاربران --}}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <div class="card shadow-sm mb-4" style="border-radius: 16px;">
+                <div class="card-body text-center">
+                    @if(auth()->check())
+                        <a href="#report-form" class="btn btn-success btn-lg" style="font-weight: bold; min-width: 200px;">ثبت گزارش برای این درخت</a>
+                    @else
+                        <a href="{{ route('user.login', ['redirect' => url()->current().'#report-form']) }}" class="btn btn-success btn-lg" style="font-weight: bold; min-width: 200px;">ثبت گزارش برای این درخت</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- فرم ثبت گزارش فقط برای کاربران لاگین شده --}}
+@if(auth()->check())
+    <div id="report-form" class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="card shadow-sm mb-4" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <h4 class="mb-3" style="color: #667eea;"><i class="fas fa-flag me-2"></i>ثبت گزارش برای این درخت</h4>
+                        @if(session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
+                        @if($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('planted-trees.report.store', $plantedTree->id) }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="title" class="form-label">عنوان گزارش <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="title" name="title" required value="{{ old('title') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">توضیحات <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">فایل/عکس (اختیاری)</label>
+                                <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-success w-100" style="font-weight: bold;">ثبت گزارش</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
