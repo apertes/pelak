@@ -35,6 +35,7 @@ class TreeReportController extends Controller
     {
         $tree = PlantedTree::findOrFail($planted_tree_id);
         $reports = TreeReport::where('planted_tree_id', $planted_tree_id)->with('user')->latest()->get();
+       
         return view('planted-tree.reports.index', compact('tree', 'reports'));
     }
 
@@ -53,6 +54,7 @@ class TreeReportController extends Controller
     public function adminIndex()
     {
         $reports = TreeReport::with(['user', 'plantedTree'])->latest()->paginate(15);
+        
         return view('admin-panel.tree-reports.index', compact('reports'));
     }
 }

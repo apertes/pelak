@@ -189,10 +189,13 @@
                                 <i class="zmdi zmdi-wifi-alt profile-icon bg-purple" aria-hidden="true"></i>
                                 پشتیبانی
                             </a>
-                            <a href="#" class="dropdown-item">
-                                <i class="ti-unlink profile-icon bg-warning" aria-hidden="true"></i>
-                                خروج از سیستم
-                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="dropdown-item" style="width:100%;text-align:right;">
+                                    <i class="ti-unlink profile-icon bg-warning" aria-hidden="true"></i>
+                                    خروج از سیستم
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </li>

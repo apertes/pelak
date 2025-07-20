@@ -12,12 +12,13 @@
             <!-- Sidebar Menu -->
             <nav>
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="active"><a href="index-2.html"><i class="zmdi zmdi-view-dashboard"></i><span>داشبورد</span></a></li>
+                    <li class="active"><a href="{{route('admin.dashboard')}}"><i class="zmdi zmdi-view-dashboard"></i><span>داشبورد</span></a></li>
                     <li><a href="{{ route('admin.users.index') }}"><i class="zmdi zmdi-accounts"></i><span>مدیریت کاربران</span></a></li>
                     <li><a href="{{ route('admin.posts.index') }}"><i class="zmdi zmdi-label"></i><span>مدیریت سمت‌ها</span></a></li>
                     <li><a href="{{ route('admin.user-hierarchy.manage') }}"><i class="zmdi zmdi-collection-item"></i><span>مدیریت زیرمجموعه کاربران</span></a></li>
                     <li><a href="{{ route('admin.locations.manage') }}"><i class="zmdi zmdi-pin"></i><span>مدیریت مکان‌ها</span></a></li>
                     <li><a href="{{ route('admin.positions.manage') }}"><i class="zmdi zmdi-city"></i><span>مدیریت جایگاه‌ها</span></a></li>
+                    <li><a href="{{ route('admin.regions') }}"><i class="zmdi zmdi-map"></i><span>مدیریت مناطق</span></a></li>
                     <li class="nav-item has-sub">
                         <a href="#" class="nav-link">
                             <i class="fa fa-tree"></i> <span>مدیریت درختان</span>
@@ -43,6 +44,7 @@
                             <span>درخت کاربران و پست‌ها (Vue)</span>
                         </a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.citizens.index') }}"><i class="zmdi zmdi-accounts-alt"></i> لیست شهروندان</a></li>
                     <li class="nav-item has-sub">
                         <a href="#" class="nav-link">
                             <i class="zmdi zmdi-shield-security"></i> <span>مدیریت دسترسی‌ها</span>

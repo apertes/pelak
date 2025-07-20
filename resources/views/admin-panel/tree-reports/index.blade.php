@@ -42,7 +42,7 @@
                                                     <span class="badge bg-warning text-dark">جدید</span>
                                                 @endif
                                             </td>
-                                            <td>{{ jdate($report->created_at)->format('Y/m/d H:i') }}</td>
+                                            <td>{{ \Morilog\Jalali\Jalalian::fromDateTime($report->created_at)->format('Y/m/d H:i') }}</td>
                                             <td>
                                                 <a href="{{ route('tree-reports.show', $report->id) }}" class="btn btn-info btn-sm">
                                                     <i class="zmdi zmdi-eye"></i> مشاهده

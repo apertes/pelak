@@ -27,8 +27,8 @@ class PlantedTreeController extends Controller
         $trees = \App\Models\Tree::all();
         $locations = \App\Models\Location::all();
         $positions = \App\Models\Position::all();
-
-        return view('planted-tree.create', compact('treeGroups', 'trees', 'locations', 'positions'));
+        $regions = \App\Models\Region::all();
+        return view('planted-tree.create', compact('treeGroups', 'trees', 'locations', 'positions', 'regions'));
     }
 
     /**
@@ -41,6 +41,7 @@ class PlantedTreeController extends Controller
             'tree_id' => 'required|exists:trees,id',
             'location_id' => 'required|exists:locations,id',
             'position_id' => 'required|exists:positions,id',
+            'region_id' => 'nullable|exists:regions,id',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'status' => 'required|in:سالم,بیمار,خشک شده',
@@ -160,12 +161,20 @@ class PlantedTreeController extends Controller
             return view('planted-tree.create-from-qr', compact('id', 'treeGroups', 'trees', 'locations', 'positions'));
         }
         
-        // اگر کاربر لاگین است و مجوز ویرایش دارد، ریدایرکت به صفحه ویرایش
+        // اگر کاربر لاگین است و مجوز ویرایش دارد، داده‌های لازم را برای فرم ویرایش هم ارسال کن
+        $treeGroups = null;
+        $trees = null;
+        $locations = null;
+        $positions = null;
+        $regions = null;
         if (auth()->check() && auth()->user()->can('edit tree')) {
-            return redirect()->route('planted-trees.edit', $plantedTree->id);
+            $treeGroups = \App\Models\TreeGroup::all();
+            $trees = \App\Models\Tree::all();
+            $locations = \App\Models\Location::all();
+            $positions = \App\Models\Position::all();
+            $regions = \App\Models\Region::all();
         }
-
-        return view('planted-tree.public-show', compact('plantedTree'));
+        return view('planted-tree.public-show', compact('plantedTree', 'treeGroups', 'trees', 'locations', 'positions', 'regions'));
     }
 
     /**
@@ -178,8 +187,8 @@ class PlantedTreeController extends Controller
         $trees = \App\Models\Tree::all();
         $locations = \App\Models\Location::all();
         $positions = \App\Models\Position::all();
-
-        return view('planted-tree.edit', compact('plantedTree', 'treeGroups', 'trees', 'locations', 'positions'));
+        $regions = \App\Models\Region::all();
+        return view('planted-tree.edit', compact('plantedTree', 'treeGroups', 'trees', 'locations', 'positions', 'regions'));
     }
 
     /**
@@ -187,7 +196,58 @@ class PlantedTreeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'tree_group_id' => 'required|exists:tree_groups,id',
+            'tree_id' => 'required|exists:trees,id',
+            'location_id' => 'required|exists:locations,id',
+            'position_id' => 'required|exists:positions,id',
+            'region_id' => 'nullable|exists:regions,id',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'status' => 'required|in:سالم,بیمار,خشک شده',
+            'image' => 'nullable|image|max:2048',
+            'description' => 'nullable|string|max:1000',
+        ]);
+        $plantedTree = \App\Models\PlantedTree::findOrFail($id);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('planted-trees', 'public');
+        }
+        $plantedTree->update($validated);
+
+        // اگر پارامتر from_public_show وجود داشت، به صفحه public-show برگرد
+        if ($request->has('from_public_show')) {
+            return redirect()->route('tree.public.show', $id)
+                ->with('success', 'درخت با موفقیت ویرایش شد.');
+        }
+
+        return redirect()->route('planted-trees.show', $id)
+            ->with('success', 'درخت با موفقیت ویرایش شد.');
+    }
+
+    /**
+     * ویرایش درخت از صفحه public-show
+     */
+    public function updateFromPublicShow(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'tree_group_id' => 'required|exists:tree_groups,id',
+            'tree_id' => 'required|exists:trees,id',
+            'location_id' => 'required|exists:locations,id',
+            'position_id' => 'required|exists:positions,id',
+            'region_id' => 'nullable|exists:regions,id',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'status' => 'required|in:سالم,بیمار,خشک شده',
+            'image' => 'nullable|image|max:2048',
+            'description' => 'nullable|string|max:1000',
+        ]);
+        $plantedTree = \App\Models\PlantedTree::findOrFail($id);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('planted-trees', 'public');
+        }
+        $plantedTree->update($validated);
+        return redirect()->route('tree.public.show', $id)
+            ->with('success', 'درخت با موفقیت ویرایش شد.');
     }
 
     /**

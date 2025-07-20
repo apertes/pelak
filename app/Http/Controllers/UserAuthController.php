@@ -17,7 +17,7 @@ class UserAuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        $user = User::where('email', $credentials['email'])->where('type', 'citizen')->first();
+        $user = User::where('email', $credentials['email'])->first();
         if ($user && Hash::check($credentials['password'], $user->password)) {
             Auth::login($user);
             $redirect = $request->input('redirect') ?: '/';

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlantedTree\PlantedTreeController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -68,6 +70,7 @@ Route::get('/admin/api/user-post-tree', function () {
 // نمایش عمومی اطلاعات درخت بر اساس ID (بدون prefix admin)
 Route::get('/tree/{id}', [PlantedTreeController::class, 'publicShow'])->name('tree.public.show');
 Route::post('/tree/{id}/create', [PlantedTreeController::class, 'storeFromQr'])->name('tree.public.create');
+Route::put('/tree/{id}/update', [\App\Http\Controllers\PlantedTree\PlantedTreeController::class, 'updateFromPublicShow'])->name('tree.public.update');
 
 // اضافه کردن روت ویرایش عمومی برای درختان کاشته شده
 Route::get('/planted-trees/{planted_tree}/edit', [PlantedTreeController::class, 'edit'])->name('planted-trees.edit');
@@ -80,6 +83,9 @@ Route::get('tree-reports/{report}', [\App\Http\Controllers\TreeReportController:
 // لیست همه گزارشات برای ادمین
 Route::get('admin/tree-reports', [\App\Http\Controllers\TreeReportController::class, 'adminIndex'])->name('admin.tree-reports.index');
 
+// صفحه فقط مشاهده شهروندان
+Route::get('admin/citizens', [\App\Http\Controllers\Admin\UserManagement\UserController::class, 'citizens'])->name('admin.citizens.index');
+
 // Admin Auth Routes
 Route::get('login', function () {
     return redirect()->route('admin.login');
@@ -88,6 +94,12 @@ Route::post('login', [\App\Http\Controllers\Admin\Auth\LoginController::class, '
 Route::get('dashboard', function() {
     return view('admin-panel.dashboard');
 })->middleware('auth')->name('dashboard');
+
+// روت خروج از سیستم (logout) بدون کنترلر
+Route::post('logout', function() {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('roles', \App\Http\Controllers\Admin\Permission\RoleController::class);

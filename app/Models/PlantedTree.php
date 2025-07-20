@@ -12,6 +12,7 @@ class PlantedTree extends Model
         'tree_id',
         'location_id',
         'position_id',
+        'region_id', // اضافه شد
         'latitude',
         'longitude',
         'image',
@@ -38,6 +39,11 @@ class PlantedTree extends Model
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(\App\Models\Region::class);
     }
 
     /**

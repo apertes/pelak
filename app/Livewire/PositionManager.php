@@ -8,24 +8,36 @@ use App\Models\Position;
 
 class PositionManager extends Component
 {
-    public $locations;
-    public $positions;
     public $name;
     public $location_id;
     public $editId = null;
+    public $parent_id;
+
+    public $locations = [];
+    public $positions = [];
 
     public function mount()
     {
-        $this->locations = Location::all();
+        $this->loadLocations();
         $this->positions = Position::with('location')->get();
     }
 
-    public function render()
+    public function loadLocations()
     {
-        return view('livewire.position-manager', [
-            'locations' => $this->locations,
-            'positions' => $this->positions,
-        ]);
+        $all = Location::with('parent.parent')->get();
+
+        $this->locations = $all->map(function ($loc) {
+            $names = [];
+            $current = $loc;
+            while ($current) {
+                array_unshift($names, $current->name);
+                $current = $current->parent;
+            }
+            return [
+                'id' => $loc->id,
+                'full_name' => implode(' - ', $names),
+            ];
+        })->sortBy('full_name')->values();
     }
 
     public function save()
@@ -34,28 +46,27 @@ class PositionManager extends Component
             'name' => 'required',
             'location_id' => 'required|exists:locations,id',
         ]);
-        if ($this->editId) {
-            $pos = Position::find($this->editId);
-            $pos->update([
+
+        Position::updateOrCreate(
+            ['id' => $this->editId],
+            [
                 'name' => $this->name,
                 'location_id' => $this->location_id,
-            ]);
-        } else {
-            Position::create([
-                'name' => $this->name,
-                'location_id' => $this->location_id,
-            ]);
-        }
+                'parent_id' => $this->parent_id,
+            ]
+        );
+
         $this->resetForm();
         $this->positions = Position::with('location')->get();
     }
 
     public function edit($id)
     {
-        $pos = Position::find($id);
-        $this->editId = $pos->id;
-        $this->name = $pos->name;
-        $this->location_id = $pos->location_id;
+        $position = Position::with('location')->findOrFail($id);
+        $this->editId = $position->id;
+        $this->name = $position->name;
+        $this->location_id = $position->location_id;
+        $this->parent_id = $position->parent_id;
     }
 
     public function delete($id)
@@ -70,5 +81,11 @@ class PositionManager extends Component
         $this->editId = null;
         $this->name = '';
         $this->location_id = '';
+        $this->parent_id = '';
+    }
+
+    public function render()
+    {
+        return view('livewire.position-manager');
     }
 }

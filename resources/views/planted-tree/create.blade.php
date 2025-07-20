@@ -93,6 +93,18 @@
                                 @error('description')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-3">
+                                <label>منطقه</label>
+                                <select name="region_id" class="form-control">
+                                    <option value="">انتخاب منطقه</option>
+                                    @foreach($regions as $region)
+                                        <option value="{{ $region->id }}" @if(old('region_id') == $region->id) selected @endif>{{ $region->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('region_id')<span class="text-danger">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
                         <div class="d-flex gap-2 mt-3">
                             <button type="submit" class="btn" style="background: #1976d2; color: #fff; border-radius: 8px; min-width: 120px;">
                                 <i class="material-icons align-middle">add</i> ثبت

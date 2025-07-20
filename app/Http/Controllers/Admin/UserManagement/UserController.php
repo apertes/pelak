@@ -67,4 +67,11 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'کاربر حذف شد.');
     }
+
+    // نمایش لیست فقط شهروندان
+    public function citizens()
+    {
+        $users = \App\Models\User::where('type', 'citizen')->paginate(15);
+        return view('admin-panel.users.citizens', compact('users'));
+    }
 } 

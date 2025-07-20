@@ -619,6 +619,29 @@
     </div>
 @endif
 
+@if(auth()->check() && auth()->user()->can('edit tree'))
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="card shadow-sm mb-4" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <h4 class="mb-3" style="color: #1976d2;"><i class="fa fa-edit me-2"></i>ویرایش اطلاعات درخت</h4>
+                        @include('planted-tree.edit-form', [
+                            'plantedTree' => $plantedTree,
+                            'treeGroups' => $treeGroups ?? null,
+                            'trees' => $trees ?? null,
+                            'locations' => $locations ?? null,
+                            'positions' => $positions ?? null,
+                            'regions' => $regions ?? null,
+                            'editAction' => route('tree.public.update', $plantedTree->id)
+                        ])
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
